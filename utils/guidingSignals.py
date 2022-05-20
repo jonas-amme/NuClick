@@ -52,7 +52,7 @@ def generateGuidingSignal (mask,RandomizeGuidingSignalType):
             skel = np.zeros(binaryMask.shape+(1,),dtype='float32')
         return skel
                     
-def jitterClicks (weightMap):
+def jitterClicks(weightMap):
     pointPos = np.argwhere(weightMap[:,:,0]>0)
     if len(pointPos)>0:
         xPos = pointPos[0,1] + np.random.randint(-3,3)

@@ -709,7 +709,7 @@ class ImageDataGenerator(object):
             weightMap[:,:,0:1] = guidingSignal[:,:,0:1]
                 
         if self.RandomizeGuidingSignalType == 'PointJiterring':
-            guidingSignal = jitterClicks (weightMap)
+            guidingSignal = jitterClicks(weightMap)
             weightMap[:,:,0:1] = guidingSignal[:,:,0:1]
 
 

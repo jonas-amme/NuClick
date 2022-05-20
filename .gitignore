@@ -24,3 +24,11 @@ __pycache__/
 *.npy
 .idea
 *.DS_Store
+
+# folder
+nuclick-env/
+images/
+preds/
+mats/
+preds/
+figures/

@@ -9,15 +9,15 @@ from keras.models import Model
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Conv2DTranspose
 from keras.layers import BatchNormalization , Activation
 from keras.layers import Lambda, add
-from keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 from keras.regularizers import l2
 from keras import backend as K
-from keras.utils import multi_gpu_model
+from tensorflow.python.keras.utils.multi_gpu_utils import multi_gpu_model
 from models.losses import getLoss, dice_coef
 import tensorflow as tf
-config = tf.ConfigProto()
+config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
-tf.keras.backend.set_session(tf.Session(config=config))
+tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
 from config import config
 
 

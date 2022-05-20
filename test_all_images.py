@@ -34,6 +34,10 @@ def main():
     all_centroid_files = os.listdir(Dot_path)
 
     for image_name in all_centroid_files:
+        if not os.path.exists(os.path.join(image_path, image_name[:-4] + '.tiff')):
+            print('image {} does not exist.'.format(image_name))
+            continue
+
         if os.path.exists(os.path.join(save_path, image_name[:-4] + '_instances.png')):
             print('image {} has already been processed'.format(image_name))
             pass
@@ -92,12 +96,16 @@ def main():
                     masks = postProcessing(preds, thresh=0.2, minSize=5, minHole=30, doReconstruction=True, nucPoints=nucPoints)
                 except:
                     masks = postProcessing(preds, thresh=0.2, minSize=5, minHole=30, doReconstruction=False, nucPoints=nucPoints)
+                print('='*30)
+                print('Predicted Mask: ', masks.shape, 'Bounding boxes: ', len(boundingBoxes))
+                print(boundingBoxes)
+                print('='*30)
                 instanceMap = generateInstanceMap(masks, boundingBoxes, m, n)
-                instanceMap_RGB  = label2rgb(instanceMap, image=img, alpha=0.3,
-                 bg_label=0, bg_color=(0, 0, 0), image_alpha=1, kind='overlay')
-                plt.figure()
-                plt.imshow(instanceMap_RGB)
-                plt.show()
+                # instanceMap_RGB  = label2rgb(instanceMap, image=img, alpha=0.3,    
+                #  bg_label=0, bg_color=(0, 0, 0), image_alpha=1, kind='overlay')
+                # plt.figure()
+                # plt.imshow(instanceMap_RGB)
+                # plt.show()
                 imsave(os.path.join(save_path, image_name[:-4] + '_instances.png'), instanceMap)
                 # plt.figure(),plt.imshow(img)
 if __name__=='__main__':

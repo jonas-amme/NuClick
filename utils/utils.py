@@ -1,3 +1,4 @@
+from weakref import ref
 from skimage import exposure
 from skimage.filters import gaussian
 import cv2
@@ -80,6 +81,9 @@ def readImageFromPathAndGetClicks(path, name, ext='.bmp'):
     cx = refPt[:, 0]
     cy = refPt[:, 1]
     img = clone[:, :, ::-1]
+    print('=' * 100)
+    print(refPt)
+    print('=' * 100)
     return img, cx, cy
 
 
@@ -196,7 +200,7 @@ def getPatchs(img, clickMap, boundingBoxes, cx, cy, m, n):
         yStart = boundingBox[1]
         xEnd = boundingBox[2]
         yEnd = boundingBox[3]
-        patchs[i] = img[0, yStart:yEnd + 1, xStart:xEnd + 1, :]
+        patchs[i] = img[0, yStart:yEnd + 1, xStart:xEnd + 1, :3]
         thisClickMap = np.zeros((1, m, n, 1), dtype=np.uint8)
         thisClickMap[0, cy[i], cx[i], 0] = 1
         othersClickMap = np.uint8((clickMap - thisClickMap) > 0)
@@ -379,8 +383,8 @@ def predictSingleImage(model, img, markups):
 def readImageAndCentroids(img_path, dot_path, name):
     all_cents = []
     try:
-        # img = imread(os.path.join(img_path, name[:-4]+'.tif'))
-        img = Image.open(os.path.join(img_path, name[:-9] + '.tif'))
+        # img = imread(os.path.join(img_path, name[:-4]+'.tiff'))
+        img = Image.open(os.path.join(img_path, name[:-4] + '.tiff')).convert('RGB')
         img = np.asarray(img)
     except:
         print('image {} has some problem in reading'.format(name))
@@ -395,8 +399,8 @@ def readImageAndCentroids(img_path, dot_path, name):
     all_cents = [[x[0], x[1]] for x in all_cents]
     if len(all_cents):
         all_cents = np.array(all_cents)
-        cx = all_cents[:, 1]
-        cy = all_cents[:, 0]
+        cx = all_cents[:, 0]      # swapped coordinates
+        cy = all_cents[:, 1]
         return [img, cx, cy]
     else:
         return [np.zeros((img.shape[0], img.shape[1]))]
@@ -436,3 +440,6 @@ if __name__=='__main__':
         mask = imread(os.path.join(path, img))
         centroids = extract_centroids(mask)
         savemat(os.path.join(path, img[:-4]+'.mat'), {'centers':centroids})
+
+
+

@@ -1,5 +1,5 @@
 class DefaultConfigs(object):
-    application = 'Gland' # either: 'Nucleus', 'Cell' (for WBC segmentation), 'Gland'
+    application = 'Nucleus' # either: 'Nucleus', 'Cell' (for WBC segmentation), 'Gland'
     multiGPU = False
     LearningRate = 4e-4
     modelType = 'MultiScaleResUnet'
@@ -35,9 +35,9 @@ class DefaultConfigs(object):
     preds_path = './preds'
 
     # for processing images with their coressponding dots
-    mat_path = 'E:\Back_up\git-files\\Nuclick--\monuseg-data\mats'
-    images_path = 'E:\Back_up\git-files\\Nuclick--\monuseg-data\images'
-    save_path = 'here'
+    mat_path = r'C:\Users\ammeling\Documents\projects\NuClick\annotations'
+    images_path = r'C:\Users\ammeling\Documents\projects\NuClick\images'
+    save_path = r'C:\Users\ammeling\Documents\projects\NuClick\preds'
     ##########################################################
 
     resumeTraining = False
@@ -49,7 +49,8 @@ class DefaultConfigs(object):
     if application=='Gland':
         testTimeJittering = None
     else:
-        testTimeJittering = 'PointJiterring'
+        # testTimeJittering = 'PointJiterring'
+        testTimeJittering = None
      #None
     if application=='Gland':
         Thresh = 0.3
@@ -60,7 +61,7 @@ class DefaultConfigs(object):
         minSize=100
         minHole=100
     else:
-        Thresh = 0.5
+        Thresh = 0.2
         minSize=10
         minHole=30
         
